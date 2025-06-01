@@ -32,6 +32,7 @@
             button2 = new Button();
             button3 = new Button();
             button4 = new Button();
+            sqliteCommand1 = new Microsoft.Data.Sqlite.SqliteCommand();
             SuspendLayout();
             // 
             // button1
@@ -71,6 +72,13 @@
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
+            // sqliteCommand1
+            // 
+            sqliteCommand1.CommandTimeout = 30;
+            sqliteCommand1.Connection = null;
+            sqliteCommand1.Transaction = null;
+            sqliteCommand1.UpdatedRowSource = System.Data.UpdateRowSource.None;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -82,6 +90,7 @@
             Controls.Add(button1);
             Name = "MainForm";
             Text = "MainForm";
+            Load += MainForm_Load;
             ResumeLayout(false);
         }
 
@@ -91,5 +100,6 @@
         private Button button2;
         private Button button3;
         private Button button4;
+        private Microsoft.Data.Sqlite.SqliteCommand sqliteCommand1;
     }
 }

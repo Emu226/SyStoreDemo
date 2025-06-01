@@ -8,14 +8,20 @@ Traditioneller Workflow:
 Artikel auswählen → Aktion wählen → Parameter eingeben
 
 Simply Store Workflow:
-Artikel scannen → "Einloggen" → Alle Aktionen verfügbar
+Artikel ID eingeben → "Einloggen" → Alle Aktionen verfügbar
 ```
 
 ### Zentrale UI-Philosophie
 **"Context-First" statt "Action-First"**
 - Mitarbeiter denkt: "Ich arbeite MIT diesem Artikel"
 - Nicht: "Ich führe eine Aktion auf einem Artikel aus"
-
+- Stift und Papier Prinzip: "Flexibles Arbeiten"
+### Warum dieser Ansatz besser ist:
+- **🖊️ Einfach:** Jeder kann mit Stift eine ID schreiben
+- **💰 Kostengünstig:** Keine QR-Code-Drucker oder Scanner nötig  
+- **🔧 Flexibel:** Mitarbeiter können sinnvolle eigene IDs vergeben
+- **📱 Zukunftssicher:** Später kann OCR hinzugefügt werden für automatisches "Lesen"
+- **🏭 Praxisnah:** So arbeiten viele Werkstätten und kleine Lager bereits
 ---
 
 ## TECHNISCHE ARCHITEKTUR (WinForms)
@@ -24,7 +30,7 @@ Artikel scannen → "Einloggen" → Alle Aktionen verfügbar
 - **Platform:** .NET 8 Windows Forms
 - **Database:** SQLite + Entity Framework Core
 - **Architecture:** MVP Pattern (Model-View-Presenter)
-- **Additional:** QR-Code Generation, File I/O für "Scanning"
+- **Additional:** ID-Code Generation, File I/O für "Scanning"
 
 ### Projekt-Struktur
 ```
@@ -44,7 +50,7 @@ SimplyStore.WinForms/
 │   └── ArticleContextPresenter.cs
 ├── Services/
 │   ├── DataService.cs
-│   ├── QRCodeService.cs
+│   ├── IDCodeService.cs
 │   └── FileService.cs
 └── Database/
     └── SimplyStoreContext.cs
@@ -58,7 +64,7 @@ SimplyStore.WinForms/
 ```
 [Hauptmenü] 
      ↓
-[QR-Code Scannen] (File Upload Simulation)
+[ID-Code Scannen/ Eingeben] (File Upload Simulation)
      ↓
 [Artikel/ Lager gefunden?] 
      ├─ JA → [Artikel/Lager-Kontext öffnen]
@@ -118,7 +124,7 @@ SimplyStore.WinForms/
          ↓
 [Teilung definieren: 4 + 6]
          ↓
-[Neuen QR-Code für geteilte Einheit generieren]
+[Neuen ID-Code für geteilte Einheit generieren]
          ↓
 [Auswahl: In welcher Einheit weitermachen?]
 ```
@@ -131,7 +137,7 @@ SimplyStore.WinForms/
          ↓
 [Zusammenführung: 5 + 3 = 8 Stück]
          ↓
-[Einen QR-Code wird ungültig]
+[Einen ID-Code wird ungültig]
 ```
 
 ---
@@ -169,10 +175,10 @@ SimplyStore.WinForms/
 ## ERWEITERTE FEATURES
 
 ### 1. Intelligente Artikel-Erkennung
-**Problem:** Was passiert wenn QR-Code nicht lesbar?
+**Problem:** Was passiert wenn ID-Code nicht lesbar?
 **Lösung:** Fallback-Strategien
 ```
-QR-Code Scan fehlgeschlagen
+ID-Code Scan fehlgeschlagen
          ↓
 [Manuelle Eingabe von Artikel-ID]
          ↓

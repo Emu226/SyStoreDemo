@@ -16,11 +16,11 @@ namespace SimplyStore.WinForms
             var dataService = new DataService();
             if (dataService.GetAllArticles().Count == 0)
             {
-                var demoStorage = new Storage { Name = "Werkstatt-Regal 1", QRCode = "STO:1001", Description = "Hauptregal" };
+                var demoStorage = new Storage { Name = "Werkstatt-Regal 1", IDCode = "STO:1001", Description = "Hauptregal" };
                 var demoArticle = new Article
                 {
                     Name = "Werkzeugkoffer",
-                    QRCode = "ART:2001",
+                    IDCode = "ART:2001",
                     Description = "Mit Hammer, Schraubendreher",
                     Price = 45.00m,
                     Quantity = 1,

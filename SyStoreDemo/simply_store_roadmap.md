@@ -11,7 +11,7 @@
 - [X] **Projektstruktur** nach MVP-Pattern anlegen
 - [X] **NuGet Packages:**
   - Entity Framework Core + SQLite
-  - QRCoder für QR-Code Generation
+  - //
   - System.Drawing für Icons
 - [X] **MainForm** mit Hauptmenü erstellen
 - [ ] **Basic Navigation** zwischen Forms
@@ -28,12 +28,12 @@
 - CRUD-Operations implementieren
 
 **Tasks:**
-- [ ] **Entity Models:**
+- [X] **Entity Models:**
   ```csharp
   public class Article
   {
       public int Id { get; set; }
-      public string QRCode { get; set; }
+      public string IDCode { get; set; }
       public string Name { get; set; }
       public string Description { get; set; }
       public decimal Price { get; set; }
@@ -47,7 +47,7 @@
   public class Storage
   {
       public int Id { get; set; }
-      public string QRCode { get; set; }
+      public string IDCode { get; set; }
       public string Name { get; set; }
       public string Description { get; set; }
       public List<Article> Articles { get; set; }
@@ -62,45 +62,79 @@
       public DateTime Timestamp { get; set; }
   }
   ```
-- [ ] **SimplyStoreContext** mit DbSets
+- [X] **SimplyStoreContext** mit DbSets
 - [ ] **DataService** für CRUD-Operations
-- [ ] **Database Initialization** mit Demo-Daten
+- [X] **Database Initialization** mit Demo-Daten
 
 **Deliverable:** Datenbank funktioniert, Demo-Daten können geladen werden
 
 ---
 
-#### Tag 3: QR-Code System & File Upload
+#### Tag 3: ID-System & Handschriftliche Etiketten
 **Ziele:**
-- QR-Code Generation implementieren
-- File-Upload für "Scanning" Simulation
-- QR-Code zu Artikel-Mapping
+- Einfaches ID-System implementieren
+- Handschriftliche Etiketten-Workflow unterstützen
+- ID zu Artikel-Mapping
 
 **Tasks:**
-- [ ] **QRCodeService:**
+- [ ] **IDService:**
   ```csharp
-  public class QRCodeService
+  public class IDService
   {
-      public string GenerateArticleQR(int articleId);
-      public string GenerateStorageQR(int storageId);
-      public Bitmap GenerateQRImage(string data);
-      public (string Type, int Id) ParseQRCode(string qrData);
+      public string GenerateArticleID(); // z.B. "IDX1222"
+      public string GenerateStorageID(); // z.B. "STO5589"
+      public bool ValidateID(string id);
+      public (string Type, string ID) ParseID(string input);
+      public string FormatIDForLabel(string id); // Für Ausdruck formatieren
   }
   ```
-- [ ] **FileService für "Kamera-Simulation":**
+- [ ] **LabelService für Etiketten-Management:**
   ```csharp
-  public class FileService
+  public class LabelService
   {
-      public string SelectImageFile();
-      public string SimulateQRScan(string imagePath);
+      public string CreatePrintableLabel(string id, string itemName);
+      public List<string> GetSuggestedIDs(string prefix = "IDX");
+      public bool IsIDUnique(string id);
+      public string GenerateNextAvailableID(string pattern);
   }
   ```
-- [ ] **QR-Code Format definieren:**
-  - Artikel: "ART:12345"
-  - Lager: "STO:67890"
-- [ ] **Scan-Simulation UI** (File Dialog)
+- [ ] **ID-Format definieren:**
+  - Artikel: "IDX" + 4 Ziffern (z.B. "IDX1222", "IDX0045")
+  - Lager: "STO" + 4 Ziffern (z.B. "STO0001", "STO0234")
+  - Flexibel: Mitarbeiter kann auch eigene IDs vergeben ("WERK01", "REGAL-A")
+- [ ] **ID-Input UI** statt Scan-Simulation:
+  ```
+  ┌─────────────────────────────────┐
+  │  📝 ARTIKEL/LAGER ID EINGEBEN   │
+  │                                 │
+  │  ID: [________________]         │
+  │                                 │
+  │  💡 Vorschlag: IDX1223          │
+  │      [Vorschlag übernehmen]     │
+  │                                 │
+  │  ✏️ Oder eigene ID eingeben:    │
+  │     z.B. WERK01, REGAL-A        │
+  │                                 │
+  │  [🔍 Suchen] [❌ Abbruch]       │
+  └─────────────────────────────────┘
+  ```
 
-**Deliverable:** QR-Codes können generiert und "gescannt" werden
+**Praxis-Workflow:**
+1. **Neuer Artikel:** App schlägt ID vor (z.B. "IDX1223")
+2. **Mitarbeiter:** Schreibt ID mit Stift auf Etikett/Artikel
+3. **Später:** Mitarbeiter tippt ID in App ein (statt scannen)
+4. **Alternative:** Mitarbeiter erfindet eigene ID ("BOHRER-KLEIN")
+
+**Deliverable:** IDs können generiert, eingegeben und Artikeln zugeordnet werden
+
+---
+
+### Warum dieser Ansatz besser ist:
+- **🖊️ Einfach:** Jeder kann mit Stift eine ID schreiben
+- **💰 Kostengünstig:** Keine QR-Code-Drucker oder Scanner nötig  
+- **🔧 Flexibel:** Mitarbeiter können sinnvolle eigene IDs vergeben
+- **📱 Zukunftssicher:** Später kann OCR hinzugefügt werden für automatisches "Lesen"
+- **🏭 Praxisnah:** So arbeiten viele Werkstätten und kleine Lager bereits
 
 ---
 
@@ -116,7 +150,7 @@
   ┌─────────────────────────────────┐
   │  📱 ARTIKEL SCANNEN             │
   │                                 │
-  │  [📁 QR-Code Bild auswählen]    │
+  │  [📁 ID-Code auswählen]    │
   │                                 │
   │  ┌─ Scan-Ergebnis ─────────────┐ │
   │  │                             │ │
@@ -129,10 +163,10 @@
   ```
 - [ ] **ScanPresenter Logic:**
   - File-Dialog öffnen
-  - QR-Code aus Dateiname/Mock extrahieren
+  - ID-Code aus Dateiname/Mock extrahieren
   - Artikel in Datenbank suchen
   - Artikel-Kontext öffnen oder "Nicht gefunden"
-- [ ] **Error Handling:** QR-Code nicht erkannt, Artikel nicht gefunden
+- [ ] **Error Handling:** ID-Code nicht erkannt, Artikel nicht gefunden
 
 **Deliverable:** Scan-Prozess funktioniert Ende-zu-Ende
 
@@ -269,7 +303,7 @@
   ```
 - [ ] **Storage Selection Service:**
   - Alle verfügbaren Lager laden
-  - Neues Lager via QR-Scan erstellen
+  - Neues Lager via ID-Scan erstellen
 - [ ] **Relocation Logic:**
   - Artikel.StorageId aktualisieren
   - Action loggen
@@ -283,7 +317,7 @@
 **Ziele:**
 - Split-Funktionalität (1 → 2 Einheiten)
 - Merge-Funktionalität (2 → 1 Einheit)
-- QR-Code Management
+- ID-Code Management
 
 **Tasks:**
 - [ ] **Split Article Dialog:**
@@ -303,8 +337,8 @@
 - [ ] **Split Logic:**
   - Neuen Artikel erstellen mit Teil der Menge
   - Originalartikel-Menge reduzieren
-  - Neue QR-Codes generieren
-  - Beide Artikel gleiche Properties (außer Menge + QR)
+  - Neue ID-Codes generieren
+  - Beide Artikel gleiche Properties (außer Menge + ID)
 - [ ] **Merge Logic:**
   - Anderen Artikel des gleichen Typs finden/scannen
   - Mengen addieren
@@ -375,7 +409,7 @@
   }
   ```
 - [ ] **Demo-Optimierungen:**
-  - QR-Codes mit erkennbaren Namen (z.B. "demo_werkzeugkoffer.png")
+  - ID-Codes mit erkennbaren Namen (Einfache IDs wie "WERK01", "BOHR15", "SCHR-M6")
   - Interessante Artikel für Split/Merge-Demos
   - Verschiedene Lager für Umlagern-Demo
 - [ ] **Demo-Steuerung:**
@@ -439,7 +473,7 @@
 - [ ] **Vollständige Workflow-Tests:**
   - Artikel scannen → Kontext → alle Aktionen → zurück zu Hauptmenü
   - Demo-Scenario komplett durchspielen
-  - Edge Cases testen (QR-Code nicht gefunden, etc.)
+  - Edge Cases testen (ID-Code nicht gefunden, etc.)
 
 **Deliverable:** Demo ist benutzerfreundlich und stabil
 

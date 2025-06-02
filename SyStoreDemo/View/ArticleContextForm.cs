@@ -13,137 +13,112 @@ namespace SyStoreDemo.View
         private readonly Article _article;
         private readonly DataService _dataService;
 
-        // UI Controls
-        private Label lblHeader;
-        private Label lblIDCode;
-        private Label lblName;
-        private Label lblStorage;
-        private Label lblQuantity;
-        private Label lblPrice;
-        private Panel pnlActions;
-
         public ArticleContextForm(Article article)
         {
             _article = article ?? throw new ArgumentNullException(nameof(article));
             _dataService = new DataService();
             InitializeComponent();
-            SetupForm();
+            //SetupForm();
             LoadArticleData();
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
+        //private void SetupForm()
+        //{
+        //    // Header Bereich
+        //    var pnlHeader = new Panel
+        //    {
+        //        Location = new Point(0, 0),
+        //        Size = new Size(600, 120),
+        //        BackColor = Color.FromArgb(0, 123, 255),
+        //        Dock = DockStyle.Top
+        //    };
+        //    this.Controls.Add(pnlHeader);
 
-            // Form Eigenschaften
-            this.Text = $"📦 Artikel-Kontext - {_article.Name}";
-            this.Size = new Size(600, 700);
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.MaximizeBox = false;
-            this.Font = new Font("Segoe UI", 10F, FontStyle.Regular);
-            this.BackColor = Color.FromArgb(245, 245, 245);
+        //    lblHeader = new Label
+        //    {
+        //        Text = "📦 ARTIKEL-KONTEXT",
+        //        Font = new Font("Segoe UI", 18F, FontStyle.Bold),
+        //        ForeColor = Color.White,
+        //        Location = new Point(20, 10),
+        //        Size = new Size(560, 35),
+        //        TextAlign = ContentAlignment.MiddleLeft
+        //    };
+        //    pnlHeader.Controls.Add(lblHeader);
 
-            this.ResumeLayout(false);
-        }
+        //    // Artikel-Info Bereich
+        //    var pnlInfo = new Panel
+        //    {
+        //        Location = new Point(20, 140),
+        //        Size = new Size(560, 180),
+        //        BackColor = Color.White,
+        //        BorderStyle = BorderStyle.FixedSingle
+        //    };
+        //    this.Controls.Add(pnlInfo);
 
-        private void SetupForm()
-        {
-            // Header Bereich
-            var pnlHeader = new Panel
-            {
-                Location = new Point(0, 0),
-                Size = new Size(600, 120),
-                BackColor = Color.FromArgb(0, 123, 255),
-                Dock = DockStyle.Top
-            };
-            this.Controls.Add(pnlHeader);
+        //    // Info Labels
+        //    lblIDCode = CreateInfoLabel("🏷️ ID-Code:", "", new Point(20, 20), pnlInfo);
+        //    lblName = CreateInfoLabel("📦 Name:", "", new Point(20, 50), pnlInfo);
+        //    lblStorage = CreateInfoLabel("📍 Lager:", "", new Point(20, 80), pnlInfo);
+        //    lblQuantity = CreateInfoLabel("📊 Menge:", "", new Point(20, 110), pnlInfo);
+        //    lblPrice = CreateInfoLabel("💰 Preis:", "", new Point(20, 140), pnlInfo);
 
-            lblHeader = new Label
-            {
-                Text = "📦 ARTIKEL-KONTEXT",
-                Font = new Font("Segoe UI", 18F, FontStyle.Bold),
-                ForeColor = Color.White,
-                Location = new Point(20, 10),
-                Size = new Size(560, 35),
-                TextAlign = ContentAlignment.MiddleLeft
-            };
-            pnlHeader.Controls.Add(lblHeader);
+        //    // Aktionen Bereich
+        //    var lblActions = new Label
+        //    {
+        //        Text = "AKTIONEN",
+        //        Font = new Font("Segoe UI", 14F, FontStyle.Bold),
+        //        ForeColor = Color.FromArgb(51, 51, 51),
+        //        Location = new Point(20, 340),
+        //        Size = new Size(200, 30)
+        //    };
+        //    this.Controls.Add(lblActions);
 
-            // Artikel-Info Bereich
-            var pnlInfo = new Panel
-            {
-                Location = new Point(20, 140),
-                Size = new Size(560, 180),
-                BackColor = Color.White,
-                BorderStyle = BorderStyle.FixedSingle
-            };
-            this.Controls.Add(pnlInfo);
+        //    pnlActions = new Panel
+        //    {
+        //        Location = new Point(20, 380),
+        //        Size = new Size(560, 200),
+        //        BackColor = Color.White,
+        //        BorderStyle = BorderStyle.FixedSingle,
+        //        AutoScroll = true
+        //    };
+        //    this.Controls.Add(pnlActions);
 
-            // Info Labels
-            lblIDCode = CreateInfoLabel("🏷️ ID-Code:", "", new Point(20, 20), pnlInfo);
-            lblName = CreateInfoLabel("📦 Name:", "", new Point(20, 50), pnlInfo);
-            lblStorage = CreateInfoLabel("📍 Lager:", "", new Point(20, 80), pnlInfo);
-            lblQuantity = CreateInfoLabel("📊 Menge:", "", new Point(20, 110), pnlInfo);
-            lblPrice = CreateInfoLabel("💰 Preis:", "", new Point(20, 140), pnlInfo);
+        //    CreateActionButtons();
 
-            // Aktionen Bereich
-            var lblActions = new Label
-            {
-                Text = "AKTIONEN",
-                Font = new Font("Segoe UI", 14F, FontStyle.Bold),
-                ForeColor = Color.FromArgb(51, 51, 51),
-                Location = new Point(20, 340),
-                Size = new Size(200, 30)
-            };
-            this.Controls.Add(lblActions);
+        //    // Bottom Buttons
+        //    var btnClose = new Button
+        //    {
+        //        Text = "❌ Kontext verlassen",
+        //        Font = new Font("Segoe UI", 11F, FontStyle.Regular),
+        //        Location = new Point(20, 600),
+        //        Size = new Size(150, 45),
+        //        BackColor = Color.FromArgb(220, 53, 69),
+        //        ForeColor = Color.White,
+        //        FlatStyle = FlatStyle.Flat,
+        //        Cursor = Cursors.Hand
+        //    };
+        //    btnClose.FlatAppearance.BorderSize = 0;
+        //    btnClose.Click += (s, e) => this.Close();
+        //    this.Controls.Add(btnClose);
 
-            pnlActions = new Panel
-            {
-                Location = new Point(20, 380),
-                Size = new Size(560, 200),
-                BackColor = Color.White,
-                BorderStyle = BorderStyle.FixedSingle,
-                AutoScroll = true
-            };
-            this.Controls.Add(pnlActions);
-
-            CreateActionButtons();
-
-            // Bottom Buttons
-            var btnClose = new Button
-            {
-                Text = "❌ Kontext verlassen",
-                Font = new Font("Segoe UI", 11F, FontStyle.Regular),
-                Location = new Point(20, 600),
-                Size = new Size(150, 45),
-                BackColor = Color.FromArgb(220, 53, 69),
-                ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand
-            };
-            btnClose.FlatAppearance.BorderSize = 0;
-            btnClose.Click += (s, e) => this.Close();
-            this.Controls.Add(btnClose);
-
-            var btnHome = new Button
-            {
-                Text = "🏠 Hauptmenü",
-                Font = new Font("Segoe UI", 11F, FontStyle.Regular),
-                Location = new Point(430, 600),
-                Size = new Size(150, 45),
-                BackColor = Color.FromArgb(108, 117, 125),
-                ForeColor = Color.White,
-                FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand
-            };
-            btnHome.FlatAppearance.BorderSize = 0;
-            btnHome.Click += (s, e) => {
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            };
-            this.Controls.Add(btnHome);
-        }
+        //    var btnHome = new Button
+        //    {
+        //        Text = "🏠 Hauptmenü",
+        //        Font = new Font("Segoe UI", 11F, FontStyle.Regular),
+        //        Location = new Point(430, 600),
+        //        Size = new Size(150, 45),
+        //        BackColor = Color.FromArgb(108, 117, 125),
+        //        ForeColor = Color.White,
+        //        FlatStyle = FlatStyle.Flat,
+        //        Cursor = Cursors.Hand
+        //    };
+        //    btnHome.FlatAppearance.BorderSize = 0;
+        //    btnHome.Click += (s, e) => {
+        //        this.DialogResult = DialogResult.OK;
+        //        this.Close();
+        //    };
+        //    this.Controls.Add(btnHome);
+        //}
 
         private Label CreateInfoLabel(string caption, string value, Point location, Control parent)
         {
@@ -220,7 +195,6 @@ namespace SyStoreDemo.View
 
         private void LoadArticleData()
         {
-            // Aktualisiere die Artikel-Daten vom DataService
             var currentArticle = _dataService.GetArticleById(_article.Id);
             if (currentArticle != null)
             {
@@ -229,8 +203,6 @@ namespace SyStoreDemo.View
                 lblStorage.Text = currentArticle.Storage?.Name ?? "Kein Lager zugewiesen";
                 lblQuantity.Text = $"{currentArticle.Quantity} {GetQuantityUnit(currentArticle.Category)}";
                 lblPrice.Text = $"€{currentArticle.Price:F2}";
-
-                // Header aktualisieren
                 lblHeader.Text = $"📦 {currentArticle.Name} #{currentArticle.IDCode}";
             }
         }
@@ -254,7 +226,7 @@ namespace SyStoreDemo.View
             {
                 if (editForm.ShowDialog() == DialogResult.OK)
                 {
-                    LoadArticleData(); // Daten neu laden nach Bearbeitung
+                    LoadArticleData();
                     _dataService.LogAction(_article.Id, "Edit", "Artikel-Details bearbeitet");
                 }
             }
@@ -335,7 +307,6 @@ namespace SyStoreDemo.View
             try
             {
                 var actions = _dataService.GetArticleHistory(_article.Id);
-
                 string historyText = $"📋 Historie für Artikel '{_article.Name}' (#{_article.IDCode})\n\n";
 
                 if (actions.Count == 0)
@@ -351,7 +322,6 @@ namespace SyStoreDemo.View
                     }
                 }
 
-                // Zeige Historie in einem scrollbaren Dialog
                 var historyForm = new Form
                 {
                     Text = $"Historie - {_article.Name}",
@@ -402,10 +372,8 @@ namespace SyStoreDemo.View
 
                 if (result == DialogResult.Yes)
                 {
-                    // Verwende die Methode CreatePrintableLabel anstelle von PrintLabel
                     var labelContent = labelService.CreatePrintableLabel(_article.IDCode, _article.Name);
 
-                    // Simuliere Label-Druck
                     MessageBox.Show(
                         $"✅ Label wurde erfolgreich erstellt!\n\n" +
                         $"Label-Inhalt:\n{labelContent}\n\n" +
@@ -414,7 +382,6 @@ namespace SyStoreDemo.View
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 
-                    // Aktion protokollieren
                     _dataService.LogAction(_article.Id, "PrintLabel",
                         $"Neues Label erstellt am {DateTime.Now:dd.MM.yyyy HH:mm}");
                 }
@@ -430,7 +397,6 @@ namespace SyStoreDemo.View
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            // Optional: Protokolliere das Schließen des Kontexts
             try
             {
                 _dataService.LogAction(_article.Id, "CloseContext",

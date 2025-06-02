@@ -13,9 +13,13 @@ https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/Services
 https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/Services/IDService.cs
 https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/Services/LabelService.cs
 https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/SyStoreDemo.csproj
+https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/View/ArticleContextForm.cs
+https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/View/ArticleEditForm.cs
 https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/View/MainForm.Designer.cs
 https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/View/MainForm.cs
 https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/View/MainForm.resx
+https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/View/QuantityChangeForm.cs
+https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/View/ScannerForm.cs
 https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/directory_index.txt
 https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/raw_links.txt
 https://raw.githubusercontent.com/Emu226/SyStoreDemo/master/SyStoreDemo/simply_store_roadmap.md

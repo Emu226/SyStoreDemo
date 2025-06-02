@@ -77,7 +77,7 @@
 - ID zu Artikel-Mapping
 
 **Tasks:**
-- [ ] **IDService:**
+- [X] **IDService:**
   ```csharp
   public class IDService
   {
@@ -88,7 +88,7 @@
       public string FormatIDForLabel(string id); // Für Ausdruck formatieren
   }
   ```
-- [ ] **LabelService für Etiketten-Management:**
+- [X] **LabelService für Etiketten-Management:**
   ```csharp
   public class LabelService
   {
